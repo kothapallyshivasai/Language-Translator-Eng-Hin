@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator</title>
+    {% load static %}
+    {% include "includes.html" %}
+</head>
+<body>
+
+    <h1 class="mt-5"> Language Translator App </h1>
+
+    <div>
+        <div id="translator">
+            <p id="botText">Translator: <span>नमस्ते, मैं आपकी कैसे मदद कर सकता हूँ?</span></p>
+        </div>
+
+        <div id="userInput">
+            <input type="text" name="userMessage" id="textInput" placeholder="Type your message...">
+            <input type="submit" value="Send" id="buttonInput">
+        </div>
+    </div>
+
+    <script>
+        function getUserResponse(){
+
+            if($('#textInput').val() != ""){
+                var userText = $('#textInput').val();
+                var userHtml = "<p class='userText'>User: <span>"+ userText + "</span></p>";
+                $('#textInput').val("")
+    
+                $('#translator').append(userHtml)
+                $.get('getResponse', {userMessage: userText}).done(function(data){
+                   var returnedMessage = "<p class='botText'>Translator: <span>"+ data + "</span></p>";
+                   $("#translator").append(returnedMessage);
+                })
+            }
+            else{
+                alert('Please enter a valid text');
+            }
+        }
+
+        $('#buttonInput').click(function(){
+            getUserResponse();
+        })
+
+    </script>
+
+</body>
+</html>
